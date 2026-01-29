@@ -20,10 +20,14 @@ const App = () => {
       }
     }
     else {
+      const operators = ["/", "*", "-", "+", "%"];
+      const lastChar = expression.slice(-1);
+      if (operators.includes(value) && operators.includes(lastChar)) {
+        return; 
+      }
       setExpression(expression + value);
     }
   };
-
   const buttons = [
     "7", "8", "9", "/",
     "4", "5", "6", "*",
