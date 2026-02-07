@@ -1,0 +1,129 @@
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #f4f6fb;
+  font-family: Inter, system-ui, Arial, sans-serif;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.feedback-container {
+  width: 1000px;
+  max-width: 640px;
+  background: #0e0d0d;
+  padding: 32px 36px;
+  border-radius: 14px;
+  box-shadow:
+    0 10px 30px rgba(15, 23, 42, 0.08),
+    0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.feedback-container h2 {
+  margin: 0 0 24px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  color: #e2e5ec;
+}
+
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.feedback-form input,
+.feedback-form select,
+.feedback-form textarea {
+  padding: 14px 16px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #fafafa;
+  color: #0b4ce4;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.feedback-form textarea::placeholder {
+  color: #01060c;
+}
+
+
+.feedback-form input:focus,
+.feedback-form select:focus,
+.feedback-form textarea:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+}
+
+.feedback-form textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+
+.button {
+  margin-top: 8px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+
+  background: #6366f1;
+  color: #ffffff;
+
+  transition: background 0.2s, transform 0.1s;
+}
+
+.button:hover {
+  background: #080270;
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+
+.error {
+  font-size: 13px;
+  color: #dc2626;
+  margin-top: -10px;
+}
+
+
+.feedback-list {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+
+.feedback-item {
+  padding: 18px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+}
+
+.feedback-item h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.feedback-item p {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.5;
+}
