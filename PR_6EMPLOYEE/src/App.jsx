@@ -1,32 +1,38 @@
 import { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
+import { Row, Col, Form, Button, Card } from 'react-bootstrap';
 import { FaUsers, FaEdit, FaTrash, FaUserPlus, FaSave, FaTimes } from 'react-icons/fa';
 import generateUniqueId from 'generate-unique-id';
 import './App.css';
 
 function App() {
-  // State for all employees
-  const [employees, setEmployees] = useState([]);
+
   
-  // State for form inputs
-  const [formData, setFormData] = useState({
+  const emptyForm = {
     name: '',
     email: '',
     phone: '',
     position: '',
     department: '',
     salary: ''
-  });
-  
-  
+  };
+
+ 
+  const [employees, setEmployees] = useState([]);
+  const [formData, setFormData] = useState(emptyForm);
   const [editingId, setEditingId] = useState(null);
 
+  const [filterDept, setFilterDept] = useState('');
+  const [minSalary, setMinSalary] = useState('');
 
+  
+  const salaryRegex = /^[1-9]\d*$/;
+  const phoneRegex = /^[6-9]\d{9}$/; // Indian format
+  const departmentRegex = /^[A-Za-z\s]+$/;
+
+ 
   useEffect(() => {
     const saved = sessionStorage.getItem('employees');
-    if (saved) {
-      setEmployees(JSON.parse(saved));
-    }
+    if (saved) setEmployees(JSON.parse(saved));
   }, []);
 
 
@@ -34,163 +40,128 @@ function App() {
     sessionStorage.setItem('employees', JSON.stringify(employees));
   }, [employees]);
 
+ 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+
+  const isFormValid = () => {
+    if (!Object.values(formData).every(v => v !== '')) {
+      alert('All fields required');
+      return false;
+    }
+
+    if (!salaryRegex.test(formData.salary)) {
+      alert('Salary must be positive');
+      return false;
+    }
+
+    if (!phoneRegex.test(formData.phone)) {
+      alert('Phone must be 10 digits (Indian format)');
+      return false;
+    }
+
+    if (!departmentRegex.test(formData.department)) {
+      alert('Department letters only');
+      return false;
+    }
+
+    return true;
+  };
+
+  
+  const addEmployee = () => {
+    const newEmployee = { ...formData, id: generateUniqueId() };
+    setEmployees(prev => [...prev, newEmployee]);
+    alert('Employee added');
+  };
+ 
+  const updateEmployee = () => {
+    const updated = employees.map(emp =>
+      emp.id === editingId ? { ...formData, id: editingId } : emp
+    );
+    setEmployees(updated);
+    setEditingId(null);
+    alert('Employee updated');
   };
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    if (!formData.name || !formData.email || !formData.phone || 
-        !formData.position || !formData.department || !formData.salary) {
-      alert('Please fill all fields!');
-      return;
-    }
+    if (!isFormValid()) return;
 
-    if (editingId) {
-   
-      setEmployees(employees.map(emp => 
-        emp.id === editingId ? { ...formData, id: editingId } : emp
-      ));
-      alert('Employee updated!');
-      setEditingId(null);
-    } else {
-
-      setEmployees([...employees, { ...formData, id: generateUniqueId() }]);
-      alert('Employee added!');
-    }
-    
- 
-    setFormData({ name: '', email: '', phone: '', position: '', department: '', salary: '' });
+    editingId ? updateEmployee() : addEmployee();
+    setFormData(emptyForm);
   };
 
   
-  const handleEdit = (employee) => {
-    setFormData(employee);
-    setEditingId(employee.id);
+  const handleEdit = (emp) => {
+    setFormData({
+      name: emp.name,
+      email: emp.email,
+      phone: emp.phone,
+      position: emp.position,
+      department: emp.department,
+      salary: emp.salary
+    });
+    setEditingId(emp.id);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
- 
+  
   const handleDelete = (id) => {
-    if (window.confirm('Delete this employee?')) {
-      setEmployees(employees.filter(emp => emp.id !== id));
-      alert('Employee deleted!');
+    if (window.confirm('Delete employee?')) {
+      setEmployees(prev => prev.filter(emp => emp.id !== id));
     }
   };
 
-  
-  const handleCancel = () => {
-    setFormData({ name: '', email: '', phone: '', position: '', department: '', salary: '' });
-    setEditingId(null);
-  };
+ 
+  const filteredEmployees = employees.filter(emp => {
+    const deptMatch = filterDept ? emp.department === filterDept : true;
+    const salaryMatch = minSalary ? Number(emp.salary) >= Number(minSalary) : true;
+    return deptMatch && salaryMatch;
+  });
+
 
   return (
     <div className="app-container">
-    
+
+      {/* HEADER */}
       <div className="app-header">
         <h1><FaUsers /> Employee Management</h1>
-        <p>Simple CRUD Application with Session Storage</p>
+        <p>CRUD + Validation + Filtering</p>
       </div>
 
-
+      {/* FORM */}
       <Card className="mb-4 shadow">
         <Card.Body>
-          <h3 className="mb-4">{editingId ? 'Edit Employee' : 'Add New Employee'}</h3>
-          
+          <h3>{editingId ? 'Edit Employee' : 'Add Employee'}</h3>
+
           <Form onSubmit={handleSubmit}>
             <Row>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Full Name *</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Enter name"
-                  />
-                </Form.Group>
-              </Col>
-              
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Email *</Form.Label>
-                  <Form.Control
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="Enter email"
-                  />
-                </Form.Group>
-              </Col>
+              <Col md={6}><Form.Control placeholder="Name" name="name" value={formData.name} onChange={handleChange} /></Col>
+              <Col md={6}><Form.Control placeholder="Email" name="email" value={formData.email} onChange={handleChange} /></Col>
             </Row>
 
-            <Row>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Phone *</Form.Label>
-                  <Form.Control
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="Enter phone"
-                  />
-                </Form.Group>
-              </Col>
-              
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Position *</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="position"
-                    value={formData.position}
-                    onChange={handleChange}
-                    placeholder="Enter position"
-                  />
-                </Form.Group>
-              </Col>
+            <Row className="mt-2">
+              <Col md={6}><Form.Control placeholder="Phone" name="phone" value={formData.phone} onChange={handleChange} /></Col>
+              <Col md={6}><Form.Control placeholder="Position" name="position" value={formData.position} onChange={handleChange} /></Col>
             </Row>
 
-            <Row>
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Department *</Form.Label>
-                  <Form.Select name="department" value={formData.department} onChange={handleChange}>
-                    <option value="">Select Department</option>
-                    <option value="IT">IT</option>
-                    <option value="HR">HR</option>
-                    <option value="Finance">Finance</option>
-                    <option value="Marketing">Marketing</option>
-                    <option value="Sales">Sales</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-              
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Salary *</Form.Label>
-                  <Form.Control
-                    type="number"
-                    name="salary"
-                    value={formData.salary}
-                    onChange={handleChange}
-                    placeholder="Enter salary"
-                  />
-                </Form.Group>
-              </Col>
+            <Row className="mt-2">
+              <Col md={6}><Form.Control placeholder="Department" name="department" value={formData.department} onChange={handleChange} /></Col>
+              <Col md={6}><Form.Control type="number" placeholder="Salary" name="salary" value={formData.salary} onChange={handleChange} /></Col>
             </Row>
 
-            <div className="d-flex gap-2">
-              <Button type="submit" variant="primary">
-                {editingId ? <><FaSave /> Update</> : <><FaUserPlus /> Add Employee</>}
+            <div className="mt-3 d-flex">
+              <Button type="submit">
+                {editingId ? <><FaSave /> Update</> : <><FaUserPlus /> Add</>}
               </Button>
+
               {editingId && (
-                <Button variant="secondary" onClick={handleCancel}>
+                <Button variant="secondary" onClick={() => { setFormData(emptyForm); setEditingId(null); }}>
                   <FaTimes /> Cancel
                 </Button>
               )}
@@ -199,57 +170,57 @@ function App() {
         </Card.Body>
       </Card>
 
-  
+      {/* FILTER */}
+      <Card className="mb-3">
+        <Card.Body>
+          <Row>
+            <Col md={6}>
+              <Form.Control
+                placeholder="Filter by Department"
+                value={filterDept}
+                onChange={(e) => setFilterDept(e.target.value)}
+              />
+            </Col>
+            <Col md={6}>
+              <Form.Control
+                type="number"
+                placeholder="Minimum Salary"
+                value={minSalary}
+                onChange={(e) => setMinSalary(e.target.value)}
+              />
+            </Col>
+          </Row>
+        </Card.Body>
+      </Card>
+
+
       <Card className="shadow">
         <Card.Body>
-          <h3 className="mb-4">All Employees ({employees.length})</h3>
-          
-          {employees.length === 0 ? (
-            <div className="text-center py-5">
-              <FaUsers size={60} className="text-muted mb-3" />
-              <h5>No Employees Found</h5>
-              <p className="text-muted">Add your first employee using the form above!</p>
-            </div>
+          <h4>Total: {filteredEmployees.length}</h4>
+
+          {filteredEmployees.length === 0 ? (
+            <p>No employees found</p>
           ) : (
             <Row>
-              {employees.map((employee) => (
-                <Col key={employee.id} md={6} lg={4} className="mb-3">
-                  <Card className="h-100 employee-card">
+              {filteredEmployees.map(emp => (
+                <Col key={emp.id} md={6} lg={4} className="mb-3">
+                  <Card>
                     <Card.Body>
-                      <div className="d-flex align-items-center mb-3">
-                        <div className="avatar me-3">
-                          {employee.name.charAt(0).toUpperCase()}
-                        </div>
-                        <div>
-                          <h5 className="mb-0">{employee.name}</h5>
-                          <small className="text-primary">{employee.position}</small>
-                        </div>
-                      </div>
-                      
-                      <div className="employee-details">
-                        <p className="mb-1"><strong>Email:</strong> {employee.email}</p>
-                        <p className="mb-1"><strong>Phone:</strong> {employee.phone}</p>
-                        <p className="mb-1"><strong>Department:</strong> {employee.department}</p>
-                        <p className="mb-1"><strong>Salary:</strong> ${employee.salary}</p>
-                        <p className="mb-0"><strong>ID:</strong> {employee.id}</p>
-                      </div>
-                      
-                      <div className="d-flex gap-2 mt-3">
-                        <Button 
-                          variant="outline-primary" 
-                          size="sm" 
-                          onClick={() => handleEdit(employee)}
-                        >
+                      <h5>{emp.name}</h5>
+                      <p><strong>Phone:</strong> {emp.phone}</p>
+                      <p><strong>Department:</strong> {emp.department}</p>
+                      <p><strong>Salary:</strong> ₹{emp.salary}</p>
+
+                     
+                      <div style={{ display: 'flex' }}>
+                        <Button size="sm" onClick={() => handleEdit(emp)}>
                           <FaEdit /> Edit
                         </Button>
-                        <Button 
-                          variant="outline-danger" 
-                          size="sm"
-                          onClick={() => handleDelete(employee.id)}
-                        >
+                        <Button size="sm" variant="danger" onClick={() => handleDelete(emp.id)}>
                           <FaTrash /> Delete
                         </Button>
                       </div>
+
                     </Card.Body>
                   </Card>
                 </Col>
@@ -258,6 +229,7 @@ function App() {
           )}
         </Card.Body>
       </Card>
+
     </div>
   );
 }
