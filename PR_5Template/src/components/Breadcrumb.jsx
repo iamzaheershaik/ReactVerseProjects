@@ -1,4 +1,3 @@
-import React from 'react';
 import { Breadcrumb as BSBreadcrumb } from 'react-bootstrap';
 
 const Breadcrumb = () => {

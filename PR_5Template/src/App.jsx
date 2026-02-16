@@ -6,7 +6,8 @@ import ProductInfo from './components/ProductInfo';
 import ProductTabs from './components/ProductTabs';
 import RelatedProducts from './components/RelatedProducts';
 import RecentlyViewed from './components/RecentlyViewed';
-
+import Header from './components/Header';
+import Footer from './components/Footer';
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -35,6 +36,7 @@ function App() {
 
   return (
     <div className="App py-3">
+      <Header/>
       <Container fluid style={{ maxWidth: '1400px' }}>
         <Breadcrumb />
         
@@ -52,7 +54,9 @@ function App() {
         <RelatedProducts />
         
         <RecentlyViewed />
+
       </Container>
+    <Footer/>
     </div>
   );
 }

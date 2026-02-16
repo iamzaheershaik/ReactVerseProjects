@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+.profile-card {
+  font-family: 'Poppins', sans-serif; 
+  width: 280px;
+  padding: 18px;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  text-align: center;
+}
+
+
+.profile-img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #0d6efd; /* blue */
+  margin-bottom: 12px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.profile-img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(13, 110, 253, 0.5);
+}
+
+.profile-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 4px;
+}
+
+
+.profile-designation {
+  font-size: 14px;
+  color:  #495057;; 
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+
+.profile-email,
+.profile-phone,
+.profile-address {
+  font-size: 13px;
+  color: #495057;
+  margin: 4px 0;
+}
+
+
+.profile-skills {
+  background: #e7f1ff;
+  color: #0d6efd;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin-top: 8px;
+  display: inline-block;
+  font-weight: 500;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  padding: 40px;
+}
+
+@media (max-width: 1200px) {
+  .card-container {
+    grid-template-columns: repeat(3, 280px);
+  }
+}
+
+@media (max-width: 992px) {
+  .card-container {
+    grid-template-columns: repeat(2, 280px);
+  }
+}
+
+
+@media (max-width: 576px) {
+  .card-container {
+    grid-template-columns: 280px;
+  }
+}
+
+
+
+

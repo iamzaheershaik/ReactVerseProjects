@@ -1,0 +1,19 @@
+.accordion-button:not(.collapsed){
+  background-color: transparent;
+  color: red;
+  box-shadow: none;
+}
+
+.accordion-button:focus{
+  box-shadow: none;
+}
+.faq-section h6 {
+  font-size: 15px;
+  color: #656565;
+}
+
+.faq-section p {
+  color: #868686;
+  font-size: 15px;
+  line-height: 1.7;
+}
