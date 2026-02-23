@@ -6,17 +6,18 @@ import './App.css';
 
 function App() {
 
-  
+
   const emptyForm = {
     name: '',
     email: '',
     phone: '',
     position: '',
     department: '',
-    salary: ''
+    salary: '',
+    imageUrl: ''
   };
 
- 
+
   const [employees, setEmployees] = useState([]);
   const [formData, setFormData] = useState(emptyForm);
   const [editingId, setEditingId] = useState(null);
@@ -24,12 +25,12 @@ function App() {
   const [filterDept, setFilterDept] = useState('');
   const [minSalary, setMinSalary] = useState('');
 
-  
+
   const salaryRegex = /^[1-9]\d*$/;
   const phoneRegex = /^[6-9]\d{9}$/; // Indian format
   const departmentRegex = /^[A-Za-z\s]+$/;
 
- 
+
   useEffect(() => {
     const saved = sessionStorage.getItem('employees');
     if (saved) setEmployees(JSON.parse(saved));
@@ -40,7 +41,7 @@ function App() {
     sessionStorage.setItem('employees', JSON.stringify(employees));
   }, [employees]);
 
- 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -48,8 +49,16 @@ function App() {
 
 
   const isFormValid = () => {
-    if (!Object.values(formData).every(v => v !== '')) {
+    const requiredFields = ['name', 'email', 'phone', 'position', 'department', 'salary'];
+    const hasEmptyField = requiredFields.some(field => formData[field] === '');
+
+    if (hasEmptyField) {
       alert('All fields required');
+      return false;
+    }
+
+    if (formData.imageUrl && !formData.imageUrl.startsWith('http')) {
+      alert('Please enter a valid image URL starting with http or https');
       return false;
     }
 
@@ -71,13 +80,13 @@ function App() {
     return true;
   };
 
-  
+
   const addEmployee = () => {
     const newEmployee = { ...formData, id: generateUniqueId() };
     setEmployees(prev => [...prev, newEmployee]);
     alert('Employee added');
   };
- 
+
   const updateEmployee = () => {
     const updated = employees.map(emp =>
       emp.id === editingId ? { ...formData, id: editingId } : emp
@@ -96,7 +105,7 @@ function App() {
     setFormData(emptyForm);
   };
 
-  
+
   const handleEdit = (emp) => {
     setFormData({
       name: emp.name,
@@ -104,20 +113,21 @@ function App() {
       phone: emp.phone,
       position: emp.position,
       department: emp.department,
-      salary: emp.salary
+      salary: emp.salary,
+      imageUrl: emp.imageUrl || ''
     });
     setEditingId(emp.id);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  
+
   const handleDelete = (id) => {
     if (window.confirm('Delete employee?')) {
       setEmployees(prev => prev.filter(emp => emp.id !== id));
     }
   };
 
- 
+
   const filteredEmployees = employees.filter(emp => {
     const deptMatch = filterDept ? emp.department === filterDept : true;
     const salaryMatch = minSalary ? Number(emp.salary) >= Number(minSalary) : true;
@@ -153,6 +163,10 @@ function App() {
             <Row className="mt-2">
               <Col md={6}><Form.Control placeholder="Department" name="department" value={formData.department} onChange={handleChange} /></Col>
               <Col md={6}><Form.Control type="number" placeholder="Salary" name="salary" value={formData.salary} onChange={handleChange} /></Col>
+            </Row>
+
+            <Row className="mt-2">
+              <Col md={12}><Form.Control type="url" placeholder="Image URL" name="imageUrl" value={formData.imageUrl} onChange={handleChange} /></Col>
             </Row>
 
             <div className="mt-3 d-flex">
@@ -206,12 +220,17 @@ function App() {
                 <Col key={emp.id} md={6} lg={4} className="mb-3">
                   <Card>
                     <Card.Body>
+                      {emp.imageUrl && (
+                        <div className="text-center mb-3">
+                          <img src={emp.imageUrl} alt={emp.name} style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '50%' }} />
+                        </div>
+                      )}
                       <h5>{emp.name}</h5>
                       <p><strong>Phone:</strong> {emp.phone}</p>
                       <p><strong>Department:</strong> {emp.department}</p>
                       <p><strong>Salary:</strong> ₹{emp.salary}</p>
 
-                     
+
                       <div style={{ display: 'flex' }}>
                         <Button size="sm" onClick={() => handleEdit(emp)}>
                           <FaEdit /> Edit
