@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Row, Col, Form, Button, Card } from 'react-bootstrap';
+import { Row, Col, Form, Button } from 'react-bootstrap';
 import { FaUsers, FaEdit, FaTrash, FaUserPlus, FaSave, FaTimes } from 'react-icons/fa';
 import generateUniqueId from 'generate-unique-id';
 import EmployeeCard from './EmployeeCard';
@@ -209,8 +209,8 @@ function App() {
       </div>
 
       {/* FORM */}
-      <Card className="mb-4 shadow">
-        <Card.Body>
+      <div className="card mb-4 shadow">
+        <div className="card-body">
           <h3>{editingId ? 'Edit Employee' : 'Add Employee'}</h3>
 
           <Form onSubmit={handleSubmit}>
@@ -246,12 +246,12 @@ function App() {
               )}
             </div>
           </Form>
-        </Card.Body>
-      </Card>
+        </div>
+      </div>
 
       {/* FILTER AND SORT */}
-      <Card className="mb-3">
-        <Card.Body>
+      <div className="card mb-3">
+        <div className="card-body">
           <Row className="mb-3">
             <Col md={6}>
               <Form.Control
@@ -285,12 +285,12 @@ function App() {
               </Form.Select>
             </Col>
           </Row>
-        </Card.Body>
-      </Card>
+        </div>
+      </div>
 
 
-      <Card className="shadow">
-        <Card.Body>
+      <div className="card shadow">
+        <div className="card-body">
           <h4>Total: {sortedEmployees.length}</h4>
 
           {sortedEmployees.length === 0 ? (
@@ -307,8 +307,8 @@ function App() {
               ))}
             </Row>
           )}
-        </Card.Body>
-      </Card>
+        </div>
+      </div>
 
     </div>
   );
