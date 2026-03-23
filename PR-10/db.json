@@ -1,0 +1,117 @@
+{
+  "courses": [
+    {
+      "title": "Complete React Developer Course",
+      "description": "Learn React from basics to advanced with real-world projects.",
+      "learn": "Learn React fundamentals including components, props, and state management. Build dynamic web applications using Hooks like useState and useEffect. Understand routing with React Router and manage global state using Redux. Work with APIs, handle forms, and create reusable components. Deploy React apps and follow best practices for scalable frontend development.",
+      "duration": "40",
+      "price": "2999",
+      "rating": 4,
+      "method": "Online",
+      "image": "https://images.unsplash.com/photo-1633356122544-f134324a6cee",
+      "id": "TEhH1UdLTxQ"
+    },
+    {
+      "title": "JavaScript Mastery Bootcamp",
+      "description": "Master JavaScript concepts with hands-on coding exercises.",
+      "learn": "Master core JavaScript concepts including variables, functions, closures, and scope. Understand ES6+ features like arrow functions, destructuring, and modules. Work with the DOM to create interactive web pages. Learn asynchronous JavaScript using promises and async/await. Build real-world projects to strengthen problem-solving skills.",
+      "duration": "35",
+      "price": "2499",
+      "rating": 3,
+      "method": "Offline",
+      "image": "https://images.unsplash.com/photo-1627398242454-45a1465c2479",
+      "id": "cgVGGZWg7Ys"
+    },
+    {
+      "title": "Full Stack Web Development",
+      "description": "Become a full stack developer using MERN stack.",
+      "learn": "Build full stack applications using MongoDB, Express, React, and Node.js. Design REST APIs and connect frontend with backend services. Handle authentication and authorization using JWT. Manage databases and perform CRUD operations. Deploy full stack apps and understand real-world architecture and workflows.",
+      "duration": "60",
+      "price": "4999",
+      "rating": 2,
+      "method": "Online",
+      "image": "https://images.unsplash.com/photo-1518770660439-4636190af475",
+      "id": "V-QY2etRVj4"
+    },
+    {
+      "title": "UI/UX Design Fundamentals",
+      "description": "Learn design principles and create stunning UI/UX designs.",
+      "learn": "Learn the principles of good design including layout, typography, and color theory. Create wireframes and prototypes using tools like Figma. Understand user behavior and design user-friendly interfaces. Conduct usability testing and improve designs based on feedback. Build professional UI/UX projects for your portfolio.",
+      "duration": "25",
+      "price": "1999",
+      "rating": 3,
+      "method": "Offline",
+      "image": "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e",
+      "id": "pDtW5qgkXlo"
+    },
+    {
+      "title": "Python for Data Science",
+      "description": "Analyze data and build models using Python.",
+      "learn": "Learn Python programming for data analysis and visualization. Work with libraries like Pandas and NumPy for data manipulation. Create visualizations using Matplotlib and Seaborn. Understand machine learning basics and build predictive models. Clean, analyze, and interpret real-world datasets effectively.",
+      "duration": "50",
+      "price": "3499",
+      "rating": 3,
+      "method": "Offline",
+      "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
+      "id": "075-xy-KcIQ"
+    }
+  ],
+  "teachers": [
+    {
+      "firstName": "Shreya",
+      "lastName": "Pal",
+      "email": "shreyapal0411@gmail.com",
+      "phnumber": "123456789",
+      "profession": "Mernstack Devloper",
+      "skills": "HTML,CSS,JS,BOOTSTRAP,REACT.JS,NODE.JS",
+      "bio": "Passionate frontend developer with 5 years of experience.",
+      "profileImage": "https://img.freepik.com/premium-vector/avatar-profile-icon-flat-style-female-user-profile-vector-illustration-isolated-background-women-profile-sign-business-concept_157943-38866.jpg",
+      "id": "J4hnYo_W2Xs"
+    },
+    {
+      "firstName": "Rahul",
+      "lastName": "Patel",
+      "email": "rahul@test.in",
+      "phnumber": "1234569852",
+      "profession": "Frontend Developer",
+      "skills": "React, JavaScript, HTML, CSS",
+      "bio": "Passionate frontend developer with 5 years of experience.",
+      "profileImage": "https://randomuser.me/api/portraits/men/1.jpg",
+      "id": "8wFxO4fkuGM"
+    },
+    {
+      "firstName": "Priya",
+      "lastName": "Patel",
+      "email": "priya@test.in",
+      "phnumber": "88596328",
+      "profession": "UI/UX Designer",
+      "skills": "Figma, Adobe XD, UI Design",
+      "bio": "Creative designer focused on user-friendly experiences.",
+      "profileImage": "https://randomuser.me/api/portraits/women/2.jpg",
+      "id": "lWX_juNxqDo"
+    },
+    {
+      "firstName": "Amit",
+      "lastName": "Verma",
+      "email": "amit@test.in",
+      "phnumber": "7418529630",
+      "profession": "Backend Developer",
+      "skills": "Node.js, Express, MongoDB",
+      "bio": "Backend expert building scalable web applications.",
+      "profileImage": "https://randomuser.me/api/portraits/men/3.jpg",
+      "id": "0FjWziWuqco"
+    },
+    {
+      "firstName": "Sneha",
+      "lastName": "Iyer",
+      "email": "sneha@test.in",
+      "phnumber": "8529637419",
+      "profession": "Data Analyst",
+      "skills": "Python, SQL, Power BI",
+      "bio": "Data analyst who loves turning data into insights.",
+      "profileImage": "https://randomuser.me/api/portraits/women/4.jpg",
+      "id": "TGMj_pLWtJY"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
