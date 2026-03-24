@@ -113,5 +113,7 @@
       "id": "TGMj_pLWtJY"
     }
   ],
+  "cart": [],
+  "myLearning": [],
   "$schema": "./node_modules/json-server/schema.json"
 }

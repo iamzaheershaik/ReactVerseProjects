@@ -1,10 +1,17 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { getMyLearningAsync } from "../../Services/Action/cource.action";
 import { Link } from "react-router-dom";
 import "./MyLearning.css";
 
 const MyLearning = () => {
-  const myLearning = useSelector((state) => state.courseReducer.myLearning);
+  const myLearning = useSelector((state) => state.myLearning);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getMyLearningAsync());
+  }, [dispatch]);
 
   return (
     <Container className="my-learning-container mt-5">

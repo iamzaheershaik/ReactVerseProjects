@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { deleteCourseAsync, addToCart, getCourseAsync } from "../../Services/Action/cource.action";
+import { deleteCourseAsync, addToCartAsync, getCourseAsync, getCartAsync, getMyLearningAsync } from "../../Services/Action/cource.action";
 import { useEffect } from "react";
 
 const CourseDetails = () => {
@@ -10,9 +10,9 @@ const CourseDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const courses = useSelector((state) => state.courseReducer.courses);
-  const cart = useSelector((state) => state.courseReducer.cart);
-  const myLearning = useSelector((state) => state.courseReducer.myLearning);
+  const courses = useSelector((state) => state.courses);
+  const cart = useSelector((state) => state.cart);
+  const myLearning = useSelector((state) => state.myLearning);
 
   const course = courses[id] || courses.find(c => c.id === id || c.id === Number(id));
 
@@ -20,6 +20,8 @@ const CourseDetails = () => {
     if (!course) {
       dispatch(getCourseAsync(id));
     }
+    dispatch(getCartAsync());
+    dispatch(getMyLearningAsync());
   }, [dispatch, id, course]);
 
   if (!course) {
@@ -69,7 +71,7 @@ const CourseDetails = () => {
               <Button
                 variant="dark"
                 className="me-3"
-                onClick={() => dispatch(addToCart(course))}
+                onClick={() => dispatch(addToCartAsync(course))}
               >
                 Add to Cart
               </Button>

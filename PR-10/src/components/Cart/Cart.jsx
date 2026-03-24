@@ -1,16 +1,20 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import { removeFromCart, purchaseCourses } from "../../Services/Action/cource.action";
+import { removeFromCartAsync, purchaseCoursesAsync, getCartAsync } from "../../Services/Action/cource.action";
 import { useNavigate, Link } from "react-router-dom";
 import "./Cart.css";
 
 const Cart = () => {
-  const cart = useSelector((state) => state.courseReducer.cart);
+  const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    dispatch(getCartAsync());
+  }, [dispatch]);
+
   const handleCheckout = () => {
-    dispatch(purchaseCourses());
+    dispatch(purchaseCoursesAsync(cart));
     navigate("/my-learning");
   };
 
@@ -41,7 +45,7 @@ const Cart = () => {
                     <Button 
                       variant="link" 
                       className="text-danger p-0 text-decoration-none"
-                      onClick={() => dispatch(removeFromCart(item.id))}
+                      onClick={() => dispatch(removeFromCartAsync(item.id))}
                     >
                       Remove
                     </Button>

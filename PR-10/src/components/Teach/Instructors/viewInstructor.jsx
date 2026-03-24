@@ -10,7 +10,7 @@ const ViewInstructor = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const instructors = useSelector((state) => state.teacherReducer.teachers);
+    const instructors = useSelector((state) => state.teachers);
 
     useEffect(() => {
         dispatch(getAllTeacherAsync());

@@ -1,5 +1,7 @@
 import axios from "axios";
 
+let BASE_URL = "http://localhost:3000/courses";
+
 export const addCourse = (course) => {
   return {
     type: "ADD_COURSE",
@@ -34,23 +36,17 @@ export const deleteCourse = (id) => {
   };
 };
 
-export const addToCart = (course) => {
+export const getCart = (data) => {
   return {
-    type: "ADD_TO_CART",
-    payload: course,
+    type: "GET_CART",
+    payload: data,
   };
 };
 
-export const removeFromCart = (id) => {
+export const getMyLearning = (data) => {
   return {
-    type: "REMOVE_FROM_CART",
-    payload: id,
-  };
-};
-
-export const purchaseCourses = () => {
-  return {
-    type: "PURCHASE_COURSES",
+    type: "GET_MY_LEARNING",
+    payload: data,
   };
 };
 
@@ -59,10 +55,12 @@ export const addForm = (course) => {
     type: "ADD_FORM",
     payload: course,
   };
-};export const getCourseAsync = (id) => {
+};
+
+export const getCourseAsync = (id) => {
   return async (dispatch) => {
     try {
-      let res = await axios.get(`http://localhost:3000/courses/${id}`);
+      let res = await axios.get(`${BASE_URL}/${id}`);
       dispatch(getCourse(res.data));
     } catch (error) {
       console.log(error);
@@ -74,7 +72,7 @@ export const addForm = (course) => {
 export const getAllCourseAsync = () => {
   return async (dispatch) => {
     try {
-      let res = await axios.get(`http://localhost:3000/courses`);
+      let res = await axios.get(BASE_URL);
       console.log(res.data);
       dispatch(getAllCourse(res.data));
     } catch (error) {
@@ -86,7 +84,7 @@ export const getAllCourseAsync = () => {
 export const deleteCourseAsync = (id) => {
   return async (dispatch) => {
     try {
-      let res = await axios.delete(`http://localhost:3000/courses/${id}`);
+      let res = await axios.delete(`${BASE_URL}/${id}`);
       console.log(res.data);
       dispatch(getAllCourseAsync());
     } catch (error) {
@@ -98,7 +96,7 @@ export const deleteCourseAsync = (id) => {
 export const updateCourseAsync = (data) => {
   return async (dispatch) => {
     try {
-      let res = await axios.put(`http://localhost:3000/courses/${data.id}`, data);
+      let res = await axios.put(`${BASE_URL}/${data.id}`, data);
       console.log(res.data);
       dispatch(updateCourse(res.data));
       dispatch(getAllCourseAsync());
@@ -111,9 +109,72 @@ export const updateCourseAsync = (data) => {
 export const addCourseAsync = (data) => {
   return async (dispatch) => {
     try {
-      let res = await axios.post(`http://localhost:3000/courses/`, data);
+      let res = await axios.post(`${BASE_URL}/`, data);
       dispatch(addCourse());
       dispatch(getAllCourseAsync());
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
+
+/* --- Cart & MyLearning Async Actions --- */
+
+export const getCartAsync = () => {
+  return async (dispatch) => {
+    try {
+      let res = await axios.get("http://localhost:3000/cart");
+      dispatch(getCart(res.data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
+
+export const addToCartAsync = (course) => {
+  return async (dispatch) => {
+    try {
+      await axios.post("http://localhost:3000/cart", course);
+      dispatch(getCartAsync());
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
+
+export const removeFromCartAsync = (id) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete(`http://localhost:3000/cart/${id}`);
+      dispatch(getCartAsync());
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
+
+export const getMyLearningAsync = () => {
+  return async (dispatch) => {
+    try {
+      let res = await axios.get("http://localhost:3000/myLearning");
+      dispatch(getMyLearning(res.data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
+
+export const purchaseCoursesAsync = (cartItems) => {
+  return async (dispatch) => {
+    try {
+      for (const item of cartItems) {
+        // Add to My Learning
+        await axios.post("http://localhost:3000/myLearning", item);
+        // Remove from Cart
+        await axios.delete(`http://localhost:3000/cart/${item.id}`);
+      }
+      dispatch(getCartAsync());
+      dispatch(getMyLearningAsync());
     } catch (error) {
       console.log(error);
     }

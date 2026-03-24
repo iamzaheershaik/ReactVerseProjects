@@ -10,7 +10,7 @@ const EditInstructor = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const teacher = useSelector((state) => state.teacherReducer.teacher);
+    const teacher = useSelector((state) => state.teacher);
 
     const [formData, setFormData] = useState({
         id: "",

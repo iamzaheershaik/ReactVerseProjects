@@ -2,18 +2,20 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { addToCart, getAllCourseAsync } from "../../Services/Action/cource.action";
+import { addToCartAsync, getAllCourseAsync, getCartAsync, getMyLearningAsync } from "../../Services/Action/cource.action";
 import "./ViewCourses.css";
 
 const ViewCourses = ({ filter }) => {
 
-  const courses = useSelector((state) => state.courseReducer.courses);
-  const cart = useSelector((state) => state.courseReducer.cart);
-  const myLearning = useSelector((state) => state.courseReducer.myLearning);
+  const courses = useSelector((state) => state.courses);
+  const cart = useSelector((state) => state.cart);
+  const myLearning = useSelector((state) => state.myLearning);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllCourseAsync());
+    dispatch(getCartAsync());
+    dispatch(getMyLearningAsync());
   }, [dispatch]);
 
   const filteredCourses = filter === "All" 
@@ -77,7 +79,7 @@ const ViewCourses = ({ filter }) => {
                       <Button 
                         variant="dark" 
                         size="sm"
-                        onClick={() => dispatch(addToCart(course))}
+                        onClick={() => dispatch(addToCartAsync(course))}
                       >
                         Add to Cart
                       </Button>

@@ -1,10 +1,12 @@
 const initialState = {
   courses: [],
-  cart: JSON.parse(localStorage.getItem("Cart")) || [],
-  myLearning: JSON.parse(localStorage.getItem("MyLearning")) || [],
+  cart: [],
+  myLearning: [],
   course: null,
   isCreated: false,
-  isUpdated: false
+  isUpdated: false,
+  teachers: [],
+  teacher: {},
 };
 
 const CourseReducer = (state = initialState, action) => {
@@ -12,7 +14,7 @@ const CourseReducer = (state = initialState, action) => {
     case "ADD_COURSE":
       return {
         ...state,
-        isCreated: true
+        isCreated: true,
       };
 
     case "GET_ALL_COURSE":
@@ -20,52 +22,51 @@ const CourseReducer = (state = initialState, action) => {
         ...state,
         courses: action.payload,
         isCreated: false,
-        isUpdated: false
+        isUpdated: false,
       };
 
     case "GET_COURSE":
       return {
         ...state,
         course: action.payload,
-      }
+      };
 
     case "UPDATE_COURSE":
       return {
         ...state,
         course: null,
-        isUpdated: true
+        isUpdated: true,
       };
 
-    case "ADD_TO_CART":
-      const newCart = [...state.cart, action.payload];
-      localStorage.setItem("Cart", JSON.stringify(newCart));
+    case "GET_CART":
       return {
         ...state,
-        cart: newCart,
+        cart: action.payload,
       };
 
-    case "REMOVE_FROM_CART":
-      const filteredCart = state.cart.filter((item) => item.id !== action.payload);
-      localStorage.setItem("Cart", JSON.stringify(filteredCart));
+    case "GET_MY_LEARNING":
       return {
         ...state,
-        cart: filteredCart,
-      };
-
-    case "PURCHASE_COURSES":
-      const purchasedCourses = [...state.myLearning, ...state.cart];
-      localStorage.setItem("MyLearning", JSON.stringify(purchasedCourses));
-      localStorage.setItem("Cart", JSON.stringify([]));
-      return {
-        ...state,
-        myLearning: purchasedCourses,
-        cart: [],
+        myLearning: action.payload,
       };
 
     case "ADD_FORM":
       return {
         ...state,
         courses: [...state.courses, action.payload],
+      };
+
+    // ---- Teacher Cases ----
+    case "GET_ALL_TEACHER":
+      return {
+        ...state,
+        teachers: action.payload,
+      };
+
+    case "GET_TEACHER":
+      return {
+        ...state,
+        teacher: action.payload,
       };
 
     default:

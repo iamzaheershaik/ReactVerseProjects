@@ -11,7 +11,7 @@ const InstructorDetails = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const teacher = useSelector((state) => state.teacherReducer.teacher);
+    const teacher = useSelector((state) => state.teacher);
 
     useEffect(() => {
         dispatch(getTeacherAsync(id));

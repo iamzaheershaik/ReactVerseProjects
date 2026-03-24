@@ -12,7 +12,7 @@ const EditCourse = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const courses = useSelector((state) => state.courseReducer.courses);
+    const courses = useSelector((state) => state.courses);
 
     const [formData, setFormData] = useState({
         id: "",
