@@ -90,7 +90,7 @@ VITE_CLOUDINARY_UPLOAD_PRESET=
 ## 🔥 Firebase Setup
 
 ### 1. Create a Firebase Project
-1. Go to [Firebase Console](https://console.firebase.google.com/) → **Add project**
+1. Go to [Firebase Console](ss) → **Add project**
 2. Copy the config object into your `.env` file
 
 ### 2. Enable Authentication
